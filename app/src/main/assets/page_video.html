@@ -1,0 +1,172 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>
+    获取摄像头和相册
+  </title>
+  <script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-4.3.0.min.js"></script>
+
+  <style type="text/css">
+    body {
+      text-align: center
+    }
+
+    header {
+      display: block;
+      margin: 0 auto;
+      width: 100%;
+      height: 1.2em;
+      text-align: center;
+      background-color: #F0F0F0;
+    }
+
+    header h3 {
+      font-family: Arial;
+      font-weight: bold;
+    }
+
+    .main {
+      width: 100%;
+      height: 90%
+    }
+
+    .left-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 10px;
+      background-color: #8F7A66;
+      font-family: Arial;
+      font-size: 15px;
+      color: #ffffff;
+      border-radius: 10px;
+      text-decoration: none;
+      width: 40%;
+      height: 2em;
+      float: left;
+      text-align: center;
+    }
+
+    .right-btn {
+      width: 40%;
+      float: right;
+      height: 2em;
+      display: block;
+      font-size: 15px;
+      margin: 20px auto;
+      padding: 10px 10px;
+      background-color: #8F7A66;
+      font-family: Arial;
+      color: #ffffff;
+      border-radius: 10px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .upload-btn {
+      width: 40%;
+      height: 2em;
+      display: block;
+      font-size: 15px;
+      margin: 20px 20px 30% 30%;
+      padding: 10px 10px;
+      background-color: #8F7A66;
+      font-family: Arial;
+      color: #ffffff;
+      border-radius: 10px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .pohtoBox li {
+      padding-left: 1%;
+      padding-right: 1%;
+      padding-top: 1%;
+      padding-bottom: 1%;
+      width: 31.33%;
+      height: 20%;
+      float: left;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<header><h3>视频的选取和录制</h3></header>
+<div class="main">
+  <div>
+    <button id="btn-camera" class="left-btn" onclick="click_camera()">摄像头录制小视频
+    </button>
+    <button id="btn-photos" class="right-btn" onclick="click_photos()">读取本地视频文件
+    </button>
+  </div>
+  <div>
+    <video controls="controls" id="ele_video" width="100%" height="30%"></video>
+  </div>
+  <br/>
+  <div>
+    <button id="btn-upload" class="upload-btn" onclick="click_upload()">上传
+    </button>
+  </div>
+  <div id="video_container">
+  </div>
+</div>
+<script>
+  var client = new OSS.Wrapper({
+    region: 'http://oss-cn-beijing.aliyuncs.com',
+    accessKeyId: 'dlMfGQkgYBOf8wC4',
+    accessKeySecret: 's2FBENwXbVIaW4nXzwULGRhRxnOnSo',
+    bucket: 'snsproject'
+  });
+
+  function click_upload() {
+    if (current_path !== "") {
+      client.put('object', upload_imgs[i]).then(function (r1) {
+        console.log('put success: %j', r1);
+        return client.get('object');
+      }).then(function (r2) {
+        console.log('get success: %j', r2);
+        alert("sucess");
+      }).catch(function (err) {
+        console.error('error: %j', err);
+        alert("error");
+      });
+    }else{
+      alert("视频地址为空，请选取视频文件");
+    }
+  }
+
+  var ele_video = document.getElementById("ele_video");
+  var video_container = document.getElementById("video_container");
+  var current_path = "";
+  var index = 1;
+  function click_camera() {
+    window.android.oncamera();
+  }
+
+  function click_photos() {
+    window.android.onphotos();
+  }
+
+  function add_video_item(path) {
+    var br = document.createElement("br");
+    var new_item = document.createElement("a");
+    new_item.target = "_self";
+    new_item.href = "javascript:";
+    new_item.innerText = "第" + (index++) + "段视频";
+    new_item.index = path;
+    new_item.onclick = function () {
+      ele_video.src = this.index;
+      ele_video.play();
+      current_path = this.index;
+    };
+    video_container.appendChild(new_item);
+    video_container.appendChild(br);
+  }
+
+
+</script>
+</body>
+</html>

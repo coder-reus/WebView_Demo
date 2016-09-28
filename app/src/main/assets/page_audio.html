@@ -1,0 +1,133 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>
+    获取位置信息
+  </title>
+  <style type="text/css">
+    body {
+      text-align: center
+    }
+
+    .header {
+      width: 100%;
+      background-color: #E9E9E9
+    }
+
+    .main {
+      width: 100%;
+      height: 90%
+    }
+
+    h1 {
+      width: 100%;
+      margin-top: 20px
+    }
+
+    audio {
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+
+    p {
+      font-size: 1.2em;
+    }
+    #audios{
+      margin-top: 2em;
+      margin-bottom: 2em;;
+    }
+
+    #btn-record {
+      width: 40%;
+      height: 3em;
+      float: left;
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+
+    #btn-finished {
+      width: 40%;
+      height: 3em;
+      float: right;
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+    #time_container{
+      width: 100%;
+      height: 3em;
+      text-align: center
+    }
+  </style>
+</head>
+<body>
+<div class="header"><p>音频录制播放页面</p></div>
+<div class="main">
+  <div id="time_container">
+    <p id="time_clock"></p>
+  </div>
+  <div height="3em">
+    <button id="btn-record" class="btn-location" onclick="record_recorder()"><p>录制音频</p>
+    </button>
+    <button id="btn-finished" class="btn-location" onclick="finish_recorder()"><p>完成录制</p>
+    </button>
+    <br/>
+  </div>
+  <div>
+    <audio controls id="ele_audio" width="10em" height="5em"></audio>
+  </div>
+  <div id="audios"></div>
+  <br/>
+</div>
+<script>
+  var recorder_state = 0;
+  var index = 1;
+  var audio_container = document.getElementById("audios");
+  var ele_audio = document.getElementById("ele_audio");
+
+  var c = 0;
+  var tt;
+  function timeCount(){
+    document.getElementById("time_clock").innerText = "已录制"+c+"秒";
+    c += 1;
+    tt = setTimeout("timeCount()",1000);
+  }
+  function clearTimeCount(){
+    document.getElementById("time_clock").innerText = "录制计时器";
+    c = 0;
+    clearTimeout(tt);
+  }
+
+
+  function record_recorder() {
+    if (recorder_state === 0) {
+      window.android.onstartrecord();
+      timeCount();
+      recorder_state = 1;
+    }
+  }
+  function finish_recorder() {
+    if (recorder_state === 1) {
+      window.android.onfinishedrecord();
+      clearTimeCount();
+      recorder_state = 0;
+    }
+  }
+  function add_audio_item(path) {
+    var br = document.createElement("br");
+    var new_item = document.createElement("a");
+    new_item.src = path;
+    new_item.target = "_self";
+    new_item.href = "javascript:";
+    new_item.innerText = "第" + (index++) + "段音频";
+    new_item.onclick = function () {
+      ele_audio.src = path;
+      ele_audio.play();
+    };
+    audio_container.appendChild(new_item);
+    audio_container.appendChild(br);
+  }
+
+
+</script>
+</body>
+</html>

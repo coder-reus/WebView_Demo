@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="android_h5_proj.zhiyi.com.android_h5_proj">
+
+    <!--网络权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--精确定位和粗糙定位权限-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--录音、写文件、访问文件系统权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 读取联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <!--拍照和读取相册权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="aadaf88d4cb40a875c9a6e3e6c681f27" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LocationActivity"/>
+        <activity android:name=".ContactsActivity"/>
+        <activity android:name=".NotificationActivity"/>
+        <activity android:name=".AudioActivity"/>
+        <activity android:name=".CameraImgsActivity"/>
+        <activity android:name=".VideosActivity"/>
+        <activity android:name=".TestActivity"/>
+        <activity android:name=".TestTouchEventDemo"/>
+    </application>
+
+</manifest>

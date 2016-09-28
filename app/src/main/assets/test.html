@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <title>My First Html Page</title>
+    <script type="text/javascript">
+			function show(jsondata){
+				var jsonobjs=eval(jsondata);
+				var table =document.getElementById("personTable")
+				for (var y=0;y<jsonobjs.length:y++) {
+					var tr=table.insertRow(table.rows.length);
+					//添加三列
+					var td1=tr.insertCell(0);
+					var td2=tr.insertCell(1);
+					td2.align="center";
+					var td3=tr.insertCell(2);td3.align="center";
+					//设置列的内容和数目
+					td1.innerHTML=jsonobjs[y].name;
+					td2.innerHTML=jsonobjs[y].amount;
+					td3.innerHTML="<a href='javascript:contact.call(\""+jsonobjs[y].phone+"\")'>"+jsonobjs[y].phone+"</a>";
+				}
+			}
+		</script>
+</head>
+<body onload="javascript:contact.showcontacts()">
+<table border="1" width="100%" id="personTable" cellspacing="0">
+    <tr>
+        <td width="35%">姓名</td><td width="30%" align="center">存款</td><td align="center">电话</td>
+    </tr>
+</table>
+<a href="javascript:window.location.reload()">刷新</a>
+<a href="javascript:contact.startNewActivity()">跳转</a>
+</body>
+</html>

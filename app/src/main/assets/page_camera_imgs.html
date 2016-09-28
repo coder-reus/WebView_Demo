@@ -1,0 +1,182 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        获取摄像头和相册
+    </title>
+    <script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-4.3.0.min.js"></script>
+
+    <style type="text/css">
+        body {
+        text-align: center
+        }
+
+        header {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        height:1.2em;
+        text-align: center;
+        background-color:#F0F0F0;
+        }
+
+        header h3 {
+        font-family: Arial;
+        font-weight: bold;
+        }
+
+        .main {
+        width: 100%;
+        height: 90%
+        }
+
+        .left-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 10px;
+        background-color: #8F7A66;
+        font-family: Arial;
+        font-size: 15px;
+        color: #ffffff;
+        border-radius: 10px;
+        text-decoration: none;
+        width: 40%;
+        height: 2em;
+        float: left;
+        text-align: center;
+        }
+
+        .right-btn {
+        width: 40%;
+        float: right;
+        height: 2em;
+        display: block;
+        font-size: 15px;
+        margin: 20px auto;
+        padding: 10px 10px;
+        background-color: #8F7A66;
+        font-family: Arial;
+        color: #ffffff;
+        border-radius: 10px;
+        text-decoration: none;
+        text-align: center;
+        }
+
+        .upload-btn {
+        width: 40%;
+        height: 2em;
+        display: block;
+        font-size: 15px;
+        margin: 20px 20px 30% 30%;
+        padding: 10px 10px;
+        background-color: #8F7A66;
+        font-family: Arial;
+        color: #ffffff;
+        border-radius: 10px;
+        text-decoration: none;
+        text-align: center;
+        }
+
+        .pohtoBox {
+        margin-top: 40px;
+        padding: 0;
+        width: 100%;
+        list-style-type: none;
+        overflow: hidden;
+        }
+
+        .pohtoBox:after {
+        content: ".";
+        display: block;
+        line-height: 0;
+        width: 0;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+        overflow: hidden;
+        }
+
+        .pohtoBox li {
+        padding-left: 1%;
+        padding-right: 1%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        width: 31.33%;
+        height: 20%;
+        float: left;
+        }
+
+        img {
+        width: 100%;
+        height: 100%;
+        }
+    </style>
+</head>
+<body>
+<header><h3>图片选取或拍照页面</h3></header>
+<div class="main">
+    <div height="2em">
+        <button id="btn-camera" class="left-btn" onclick="click_camera()">摄像头拍照
+        </button>
+        <button id="btn-photos" class="right-btn" onclick="click_photos()">读取相册
+        </button>
+    </div>
+    <div>
+        <ul id="img_box" class="pohtoBox"></ul>
+    </div>
+    <br/>
+    <div height="2em">
+        <button id="btn-upload" class="upload-btn" onclick="click_upload()">上传
+        </button>
+    </div>
+</div>
+<script>
+  var upload_imgs = new Array();
+  var client = new OSS.Wrapper({
+    region: 'oss-cn-beijing',
+    accessKeyId: 'dlMfGQkgYBOf8wC4',
+    accessKeySecret: 's2FBENwXbVIaW4nXzwULGRhRxnOnSo',
+    bucket: 'snsproject'
+  });
+
+  function click_upload() {
+    for(var i = 0;i < upload_imgs.length;i ++){
+      client.put('object', upload_imgs[i]).then(function (r1) {
+        console.log('put success: %j', r1);
+        return client.get('object');
+      }).then(function (r2) {
+        console.log('get success: %j', r2);
+        alert("sucess");
+      }).catch(function (err) {
+        console.error('error: %j', err);
+        alert("error");
+      });
+    }
+
+  }
+
+  function click_camera() {
+    window.android.oncamera();
+  }
+
+  function click_photos() {
+    window.android.onphotos();
+  }
+
+  function display_imgs(imgs) {
+    var img_arr = imgs.split(",");
+    var img_box = document.getElementById("img_box");
+    for (var i = 0; i < img_arr.length; i++) {
+      upload_imgs[upload_imgs.length] = img_arr[i];
+      var img = document.createElement("img");
+      img.src = img_arr[i];
+      var li_a = document.createElement("li");
+      li_a.appendChild(img);
+      img_box.appendChild(li_a);
+    }
+  }
+
+
+</script>
+</body>
+</html>

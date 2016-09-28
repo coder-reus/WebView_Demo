@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>
+    获取位置信息
+  </title>
+  <style type="text/css">
+    body{
+      text-align:center
+    }
+    .header{
+      width:100%;
+      height:10%;
+      background-color:#E9E9E9
+    }
+    .main{
+      width:100%;
+      height:90%
+    }
+    h1{
+      width:100%;
+      margin-top:20px
+    }
+    #btn-location{
+      width:50%;
+      margin-top:10%
+    }
+    #label-location{
+      padding:20px;
+      margin-top:10%;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="header"><h1>通知页面</h1></div>
+<div class="main">
+  <label id="label-location"><p id="text-location">通知内容是......</p></label>
+  <br/>
+  <button id="btn-location" onclick="tips()"><p>发送通知</p></button>
+</div>
+<script>
+  var loca= document.getElementById("text-location");
+  function location(){
+    alert("11");
+    loca.innerHTML="北京海淀";
+  }
+  function tips(){
+    alert("22");
+    loca.innerHTML="北京海淀";
+  }
+
+</script>
+</body>
+</html>
